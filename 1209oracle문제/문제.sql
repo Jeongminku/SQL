@@ -47,6 +47,8 @@
     
 --문제 11. EMPLOYEES 테이블에서 전체 월급이 10000을 초과하는 각 업무에 대해서 업무와 월급여 합계를 출력하라. 단 job_id가 'SA '로 시작하는 직원은 제외하고 월 급여 합계로 정렬(내림차순) 하라. 
     select job_id, sum(salary) from employees group by job_id having sum(salary) > 10000 and job_id not like 'SA%' order by sum(salary) desc;
+    select job_id, sum(salary) from employees where job_id not like 'SA%' group by job_id having sum(salary) > 10000 order by sum(salary) desc;
+    
     --select job_id "업무", sum(salary) over(partition by job_id) "월급여합계" from employees where  > 10000 and job_id not like 'SA%' ;
 
 --문제12. emp테이블에서 사원이름 중 A가 포함된 사원이름을 구하고 그 이름 중 앞에서 3자만 추출하여 출력
@@ -70,11 +72,19 @@ select e.ename, e.job, d.dname, d.loc
     where e.deptno = d.deptno
     and e.job = 'MANAGER';
     
-
+select e.ename, e.job, d.dname, d.loc 
+    from emp e 
+    inner join dept d 
+    on e.deptno = d.deptno 
+    where e.job = 'MANAGER';
     
     
 
 --문제15. 커미션(emp테이블의 comm 컬럼이용)을 받고 급여가 1,600이상인 사원의 사원이름, 부서명, 근무지를 출력하시오.( emp, dept)
+select emp.name
+    from emp e
+    inner join dept d
+    
 
 --문제16. 근무지가 CHICAGO인 모든 사원의 이름,업무,부서번호 및 부서이름을 표시하시오. ( emp, dept)
 

@@ -100,3 +100,87 @@ SELECT TYPE, PRICE ,SUM(PRICE) OVER(PARTITION BY TYPE) AS SUM합계 FROM GIFT; --o
 select type, max(price) as max값 from gift group by type;
 select type, min(price) as min값 from gift group by type;
 select type, avg(price) as avg값 from gift group by type;
+
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------4장 2.VIEW 뷰----------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--create or replace view 뷰이름 as 쿼리문
+--뷰 이름은 테이블 이름과 중복될 수 없습니다.
+create or replace view academy_all as select * from academy_a;
+
+-- select * from academy_all where student_no = 1004;
+
+create or replace view academy_student_name as
+    select student_no from academy_a;
+
+select * from academy_student_name;
+select * from academy_all;
+
+insert into academy_all values(1005, '정민구');
+insert into academy_student_name('정민구2'); --오류발생. 안들어감. 데이터변경 제약 존재 같은 느낌(?)
+            
+            --테이블명
+insert into academy_student_name values(1005);--cannot insert NULL into
+
+drop view academy_join;
+
+create or replace view academy_join as
+    select t1.student_no, t1.student_name
+        from academy_a t1, academy_b t2
+        where t1.student_no = t2.student_no;
+
+--------------------------------------------------------------------------
+------------------------4장 5. 시퀀스(SEQUENCE)-----------------------------
+--------------------------------------------------------------------------
+
+
+/*시퀀스 SEQUENCE
+    오라클에서는 자동 증가 컬럼을 사용할 수 없음.
+    오라클에서 자동 증가를 실행하기 위해선 MAX(컬럼) +1 또는 시퀀스 사용.
+*/               
+                --스키마명.시퀀스명
+CREATE SEQUENCE scott.emp_seq
+       INCREMENT BY 1 --증가값(1씩 증가)
+       START WITH 1   --시작값
+       MINVALUE 1     --최솟값
+       MAXVALUE 9999  --최댓값
+       NOCYCLE        --최댓값 도달시 시작값부터 다시 반복
+       NOCACHE        --CACHE를 사용할 지 여부
+       NOORDER;       --요청 순서대로 값을 생성할지 여부
+/*
+NOCYCLE | CYCLE : NOCYCLE(반복안함), CYCLE(시퀀스의 최댓값에 도달 시 최솟값 1부터 다시시작)
+NOCACHE | CACHE : NOCACHE(사용안함), CACHE(캐시를 사용하여 미리 값을 할당해 놓아서 속도가 빠르며, 동시 사용자가 많을 경우 유리)
+NOORDER | ORDER : NOORDER(사용안함), ORDER(요청 순서로 값을 생성하여 발생 순서를 보장하지만 조금의 시스템 부하가 있음)
+
+*/
+CREATE SEQUENCE emp_seq
+       increment by 1
+       start with 1
+       minvalue 1
+       maxvalue 9999
+       nocycle
+       nocache
+       noorder;
+       
+select emp_seq.nextval
+from dual;  --시퀀스를 하나씩 증가시켜줍니다.
+
+select emp_seq.currval
+from dual;  --현재 시퀀스 값을 출력합니다.
+
+--시퀀스를 삭제합니다
+drop sequence emp_seq;
+
+insert into emp values(EMP_SEQ.nextval, '둘리', 10);
+
+select * from emp;
+
+alter sequence emp_seq increment by 1; --이제 emp_seq.nextval로 하면 2씩 증가함.
+
+truncate table emp; -- 테이블 안에 있는 데이터를 전부 지워준다.

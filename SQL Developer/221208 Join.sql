@@ -11,6 +11,8 @@ SELECT MOD (15, 7) FROM DUAL; --MOD(n1,n2) n1/n2 한 값의 나머지값을 출력. 15나누
 --날짜 함수
 select extract (year from sysdate) as year출력 from dual;
 select extract (year from order_date) as year출력 from orders;
+select extract (month from sysdate) as month출력 from orders;
+select extract (month from order_date) as month출력 from orders;
 
 CREATE TABLE ACADEMY_A ( --A학원에 등록한 학생.
     STUDENT_NO NUMBER PRIMARY KEY,
