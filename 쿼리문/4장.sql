@@ -1,4 +1,4 @@
--------------------서브쿼리------------------------------
+-------------------1. 서브쿼리------------------------------
 --스칼라 서브 쿼리
 SELECT T1.STUDENT_NO,
        (SELECT T2.STUDENT_NAME
@@ -62,7 +62,7 @@ WHERE (STUDENT_NAME, STUDENT_NO) IN (SELECT STUDENT_NAME, STUDENT_NO
 
 
 
--------------------뷰------------------------------
+-------------------2. 뷰------------------------------
 
 --뷰 생성
 
@@ -92,7 +92,7 @@ WHERE T1.STUDENT_NO = T2.STUDENT_NO;
 ---------------------------------------------------------
 
 
--------------------GROUP BY, HAVING, ORDER BY------------------------------
+-------------------3. GROUP BY, HAVING, ORDER BY------------------------------
 
 SELECT TYPE, COUNT(NAME) AS COUNT FROM GIFT GROUP BY TYPE HAVING COUNT(NAME)>=2 ORDER BY TYPE DESC;
 
@@ -100,7 +100,7 @@ SELECT TYPE, COUNT(NAME) AS COUNT FROM GIFT GROUP BY TYPE HAVING COUNT(NAME)>=2 
 
 
 
-
+-------------------4. 윈도우 함수------------------------------
 -- 성적 테이블 작성
 CREATE TABLE STUDENT_GRADE
 (
@@ -130,3 +130,67 @@ TRUNCATE TABLE STUDENT_GRADE;
 SELECT * FROM STUDENT_GRADE;
 
 SELECT STUDENT_NAME, RANK() OVER(ORDER BY SCORE DESC) FROM STUDENT_GRADE;
+SELECT STUDENT_NAME, DENSE_RANK() OVER(ORDER BY SCORE DESC) FROM STUDENT_GRADE;
+SELECT STUDENT_NAME, ROW_NUMBER() OVER(ORDER BY SCORE DESC) FROM STUDENT_GRADE;
+
+SELECT TYPE, COUNT(NAME) AS COUNT FROM GIFT GROUP BY TYPE; --건수
+SELECT TYPE, SUM(price) AS SUM FROM GIFT GROUP BY TYPE; --합계
+SELECT TYPE, AVG(price) AS AVG FROM GIFT GROUP BY TYPE; --평균
+SELECT TYPE, MAX(price) AS MAX FROM GIFT GROUP BY TYPE; --최댓값
+SELECT TYPE, MIN(price) AS MIN FROM GIFT GROUP BY TYPE; --최소값
+
+SELECT TYPE, PRICE, SUM(PRICE) OVER(PARTITION BY TYPE) AS P FROM GIFT;
+
+---------------------------------------------------------
+
+
+
+-------------------5. 시퀀스------------------------------
+
+--emp 테이블 초기화
+DROP TABLE EMP;
+
+CREATE TABLE EMP (
+    NO   NUMBER,
+    NAME VARCHAR2(20),
+    AGE  NUMBER
+);
+
+
+CREATE SEQUENCE EMP_SEQ
+       INCREMENT BY 1
+       START WITH 1
+       MINVALUE 1
+       MAXVALUE 9999
+       NOCYCLE
+       NOCACHE
+       NOORDER;
+       
+       
+SELECT EMP_SEQ.NEXTVAL
+FROM DUAL;
+
+SELECT EMP_SEQ.CURRVAL
+FROM DUAL;
+
+--시퀀스 현재 값 변경(꼼수)
+--현재 시퀀스값은 6인데 데이터값을 11부터 시작 할 경우----
+ALTER SEQUENCE EMP_SEQ INCREMENT BY 4;
+
+SELECT EMP_SEQ.NEXTVAL
+FROM DUAL;
+
+ALTER SEQUENCE EMP_SEQ INCREMENT BY 1;
+------------------------------------------------------
+
+ALTER SEQUENCE EMP_SEQ INCREMENT BY 2;
+ALTER SEQUENCE EMP_SEQ MAXVALUE 99999;
+
+INSERT INTO EMP VALUES (EMP_SEQ.NEXTVAL, '둘리', 10);
+INSERT INTO EMP VALUES (EMP_SEQ.NEXTVAL, '또치', 10);
+INSERT INTO EMP VALUES (EMP_SEQ.NEXTVAL, '고길동', 10);
+
+TRUNCATE table emp;
+
+DROP SEQUENCE EMP_SEQ;
+---------------------------------------------------------

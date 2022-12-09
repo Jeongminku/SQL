@@ -1,3 +1,17 @@
+--숫자함수
+SELECT ABS(-1) FROM DUAL; --수의 절대값 반환.
+SELECT SIGN(-1234) FROM DUAL; --수의 부호를 반환. 양수 1 / 음수 -1 / 0 이면 0
+--숫자 대신에 컬럼이 올 수 있음.
+SELECT ROUND(163.76, 3) FROM DUAL; --지정된 자리수까지 반올림. (1의자리는 0, -1부터 10의자리, 1부터 소수점 이하) 
+SELECT TRUNC(54.69, 1) FROM DUAL; --음수: 1의자리를 버리고 반환 / 소수점 소수점 자릿수까지 버림하여 반환(양수일 경우)
+SELECT CEIL(54.29) FROM DUAL; --소수점 전부 없애고 올림.
+SELECT FLOOR(54.29) FROM DUAL; --소수점 전부 없애고 버림.
+SELECT MOD (15, 7) FROM DUAL; --MOD(n1,n2) n1/n2 한 값의 나머지값을 출력. 15나누기 7의 나머지.
+
+--날짜 함수
+select extract (year from sysdate) as year출력 from dual;
+select extract (year from order_date) as year출력 from orders;
+
 CREATE TABLE ACADEMY_A ( --A학원에 등록한 학생.
     STUDENT_NO NUMBER PRIMARY KEY,
     STUDENT_NAME VARCHAR2(20) NOT NULL

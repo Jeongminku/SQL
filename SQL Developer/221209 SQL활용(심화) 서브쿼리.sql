@@ -66,5 +66,37 @@ SELECT *
         where (student_name, student_no) in(select student_name, student_no
                                             from academy_b
                                             where student_no = 1003 or student_no = 1004);
-                                            
-                                            
+
+
+------------------------4장 3.GROUP BY, HAVING, ORDER BY-------------------------
+SELECT type, count(name) as count  --count(카운팅 할 컬럼 이름)
+            from gift 
+            group by type
+           --count가 2 이상인 애들을 출력.
+            having count(name) > = 2 
+            order by type asc --가나다 순으로 정렬
+            ;
+
+
+
+
+------------------------4장 4. 윈도우 함수----------------------------------------
+select * from student_grade;
+--rank = 동일한 점수는 10등 10등으로 체크하는데 11등을 체크하지않음. 공동 10위 이후 12위가 등장.
+--즉 1,2,3,3,5 등 이런식으로 가는것 (3등이 공동이라고 가정했을때.)
+select student_name,score as 점수, rank() over(order by score desc) as 랭크 from student_grade;
+
+--denserank = 동일한 점수를 다른 등수로 카운트하지않습니다.   공동 10위 이후 11위가 등장.
+--즉 1,2,3,3,4,5 이렇게 진행됩니다.
+select student_name,score as 점수, dense_rank() over(order by score desc) as 덴스_랭크 from student_grade;
+
+--row_number는 같은 값일 지언정 1개의 숫자만을 내 뱉습니다. 공동 10위가 존재하지않고 10, 11로 됩니다.
+--3등이 점수가 같다고 가정해도 1,2,3,4,5,6,7 로 숫자를 뿌려줍니다.
+select student_name,score as 점수, row_number() over(order by score desc) as 로우_넘버 from student_grade;
+
+
+SELECT TYPE, SUM(price) AS sum합계 FROM gift GROUP BY TYPE;
+SELECT TYPE, PRICE ,SUM(PRICE) OVER(PARTITION BY TYPE) AS SUM합계 FROM GIFT; --over를 사용시 이미 group을 해주기때문에 group을 빼야함.
+select type, max(price) as max값 from gift group by type;
+select type, min(price) as min값 from gift group by type;
+select type, avg(price) as avg값 from gift group by type;
