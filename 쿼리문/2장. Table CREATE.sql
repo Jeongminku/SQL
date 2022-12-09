@@ -1,0 +1,41 @@
+-- 초기화
+DROP TABLE EMP;
+DROP TABLE CUSTOMER;
+DROP TABLE ORDERS;
+DROP TABLE CATEGORIES;
+DROP TABLE LOCATION;
+-- 초기화 끝 ----------------------------------------------------------------------------------------------------------------------------------------
+
+-- 예제1. 직원 테이블
+CREATE TABLE EMP (
+    NO   NUMBER,
+    NAME VARCHAR2(20),
+    AGE  NUMBER
+);
+
+-- 예제2. 고객 테이블
+CREATE TABLE CUSTOMER (
+    ID      NUMBER PRIMARY KEY,
+    NAME    VARCHAR2(20) NOT NULL,
+    ADDRESS VARCHAR2(100)
+);
+
+-- 예제3. 주문 테이블
+CREATE TABLE ORDERS (
+    ORDER_ID    NUMBER PRIMARY KEY,
+    SALESMAN_ID NUMBER,
+    ORDER_DATE  DATE NOT NULL
+);
+
+-- 퀴즈1. 카테고리 테이블
+CREATE TABLE CATEGORIES (
+    CATEGORY_ID NUMBER PRIMARY KEY,
+    CATEGORY_NAME VARCHAR2(100) NOT NULL
+);
+-- 퀴즈2. 위치 테이블
+CREATE TABLE LOCATION (
+    LOCATION_ID NUMBER PRIMARY KEY,
+    ADDRESS     VARCHAR2(255) NOT NULL,
+    POSTAL_CODE VARCHAR2(20),
+    CITY        VARCHAR2(50)
+);

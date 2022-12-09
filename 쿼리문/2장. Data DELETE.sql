@@ -1,0 +1,41 @@
+-- 초기화
+DELETE CUSTOMER;
+DELETE ORDERS;
+DELETE BOOK;
+
+INSERT INTO CUSTOMER(ID, NAME, ADDRESS) VALUES(1, '둘리', '인천');
+INSERT INTO CUSTOMER(ID, NAME, ADDRESS) VALUES(2, '둘리', '');
+INSERT INTO CUSTOMER(ID, NAME, ADDRESS) VALUES(3, '홍길동', NULL);
+INSERT INTO CUSTOMER(ID, NAME) VALUES(4, '또치');
+INSERT INTO ORDERS(ORDER_ID, SALESMAN_ID, ORDER_DATE) VALUES(1001, 2002, SYSDATE);
+INSERT INTO ORDERS(ORDER_ID, SALESMAN_ID, ORDER_DATE) VALUES(1002, 2002, SYSDATE);
+INSERT INTO BOOK (BOOK_NO, TITLE, PUBLISHER, PRICE) VALUES (1, '역사1', '상상마당', 10000);
+INSERT INTO BOOK (BOOK_NO, TITLE, PUBLISHER, PRICE) VALUES (2, '역사2', '상상마당', 11000);
+INSERT INTO BOOK (BOOK_NO, TITLE, PUBLISHER, PRICE) VALUES (3, '스프링웹프로젝트', '한빛미디어', 50000);
+INSERT INTO BOOK (BOOK_NO, TITLE, PUBLISHER) VALUES (4, '자바프로그래밍', '생능출판');
+-- 초기화 끝 ----------------------------------------------------------------------------------------------------------------------------------------
+
+-- 예제1. CUSTOMER 테이블에서 고객번호가 4번인 고객을 삭제
+DELETE FROM CUSTOMER WHERE ID = 4;
+
+-- 예제2. CUSTOMER 테이블에서 이름이 둘리인 고객을 모두 삭제
+DELETE FROM CUSTOMER WHERE NAME = '둘리'; --2건
+
+-- 예제3. CUSTOMER 테이블에서 데이터 전체 삭제
+DELETE FROM CUSTOMER;
+
+-- 예제4. ORDERS 테이블에서 고객의 번호는 1001이고 세일즈맨의 번호가 2002인 주문을 삭제
+DELETE FROM ORDERS WHERE ORDER_ID = 1001 AND SALESMAN_ID = 2002;
+
+-- 퀴즈1. BOOK 테이블에서 제목이 역사2이고 출판사가 상상마당인 도서를 삭제
+DELETE FROM BOOK WHERE TITLE = '역사1' AND PUBLISHER = '상상마당';
+
+-- 퀴즈2. BOOK 테이블에서 도서번호가 3인 도서를 삭제
+DELETE FROM BOOK WHERE BOOK_NO = 3;
+
+-- 퀴즈3. BOOK 테이블에서 가격이 없는 도서를 삭제
+DELETE FROM BOOK WHERE PRICE IS NULL;
+
+-- 퀴즈4. BOOK 테이블에서 모든 도서를 삭제
+DELETE FROM BOOK;
+
