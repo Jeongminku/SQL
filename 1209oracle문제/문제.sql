@@ -81,24 +81,67 @@ select e.ename, e.job, d.dname, d.loc
     
 
 --문제15. 커미션(emp테이블의 comm 컬럼이용)을 받고 급여가 1,600이상인 사원의 사원이름, 부서명, 근무지를 출력하시오.( emp, dept)
-select emp.name
+select e.ename "사원이름", d.dname "부서명", d.loc "지역"
     from emp e
     inner join dept d
+    on e.deptno = d.deptno
+    where e.comm is not null  and e.sal >= 1600;
     
 
 --문제16. 근무지가 CHICAGO인 모든 사원의 이름,업무,부서번호 및 부서이름을 표시하시오. ( emp, dept)
+select e.ename "이름", e.job "업무", e.deptno "부서번호", d.deptno "부서번호" ,d.dname "부서이름", d.loc "근무지"
+    from emp e
+    inner join dept d
+    on e.deptno = d.deptno
+    where d.loc = 'CHICAGO';
 
 
 --여기서 부터 서브쿼리 문제
 
 --문제17. emp테이블 에서 사원번호가 7900인 사원과 같은 날짜에 입사한 사람의 이름과 입사일을 출력하시오.
+select e.ename "이름", e.hiredate "사원번호"
+    from emp e
+    where hiredate = (select hiredate
+                        from emp
+                        where empno = 7900);
 
 --문제18. emp테이블 에서 직속상사(mgr)가 KING인 모든 사원의 이름과 급여를 출력하시오.
+select e.ename "사원이름", e.sal "급여", e.mgr "직속상사mgr"
+        from emp e
+        where mgr in (select mgr
+                    from emp
+                    where mgr = 7839);  
+/*single-row subquery returns more than one row                     
+
+select e.ename "사원이름", e.sal "급여"
+            from emp e
+            where mgr = (select mgr
+                        from emp
+                        where mgr = 7839);     select~7839까지 3개의 값을 return.
+단일행 비교는 1개의 값만을 가져야하므로. 이럴때는 다중행 등을 사용하여야한다.
+*/
+
+
 
 --문제19. EMPLOYEES 테이블에서 (급여의 평균)보다 적은 사원의 정보를 사원번호,이름,담당업무,급여,부서번호를 출력하여라
 
+select e.employee_id "사원번호", e.last_name "이름", e.job_id "담당업무", e.salary "급여", e.department_id "부서번호"
+    from employees e
+    where salary < (select avg(nvl(salary,0)) --NVL(A, B) A가 null이라면 B라는 값을 뱉음.
+                    from employees e) order by salary desc;
+                    
 --문제20. EMPLOYEES 테이블에서 (Kochhar의 급여)보다 많은 사원의 정보를 사원번호,이름,담당업무,급여를 출력하라.
+
+select e.employee_id "사원번호", e.last_name "이름", e.job_id "담당업무", e.salary "급여"
+    from employees e
+    where salary > (select salary
+                    from employees
+                    where last_name = 'Kochhar');
 
 --문제 21. emp테이블 에서 (BLAKE와 같은 부서)에 있는 사원들의 이름과 입사일을 구하는데 BLAKE는 제외하고 출력하시오.(BLAKE가 여러명일 수 있음
 
-
+select e.ename "이름", e.hiredate "입사일"
+    from emp e
+    where deptno in (select deptno
+                            from emp
+                            where ename = 'BLAKE') and ename != 'BLAKE';
