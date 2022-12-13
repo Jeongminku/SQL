@@ -71,19 +71,23 @@ select employee_id, last_name || ' ' || first_name, job_id, salary, hire_date, d
 select employee_id, last_name || ' ' || first_name, job_id, salary, hire_date, commission_pct * salary, department_id from employees where commission_pct IS NULL;
 
 -- ■ 8. EMPLOYEES 테이블에서 급여가 1100이상이고 JOB이 ST_MAN 인 사원의 정보를 사원번호, 성명, 담당업무, 급여, 입사일자, 부서번호를 출력하라. ■
-select 
+select employee_id, last_name || ' ' || first_name, job_id, salary, hire_date, department_id from employees where salary >= 1100 and job_id = 'ST_MAN';
 
 -- ■ 9. EMPLOYEES 테이블에서 급여가 10000이상이거나 JOB이 Manager 인 사원의 정보를 사원번호, 성명, 담당업무, 급여, 입사일자, 부서번호를 출력하라. ■
+select employee_id, last_name || ' ' || first_name, job_id, salary, hire_date, department_id from employees where salary >= 10000 or job_id = 'Manager';
 
 -- ■ 10. EMPLOYEES 테이블에서 JOB이 ST_MAN, SA_MAN, SA_REP가 아닌 사원의 정보를 사원번호,성명, 담당업무, 급여, 부서번호를 출력하라. ■
+select employee_id, last_name || ' ' || first_name, job_id, salary, department_id from employees where job_id not in ('ST_MAN','SA_MAN','SA_REP');
 
 -- ■ 11. 업무가 PRESIDENT(AD_PRES) 이고 급여가 12000이상이거나 업무가 SA_MAN인 사원의 정보를 사원번호, 이름, 업무, 급여를 출력하라. ■
+select employee_id, last_name || ' ' || first_name, job_id, salary from employees where JOB_ID = 'AD_PRES' and salary >= 12000 and job_id = 'SA_MAN';
 
 -- ■ 12. 업무가 PRESIDENT(AD_PRES) 또는 SA_MAN 이고 급여가 12000이상이거나 사원의 정보를 사원번호, 이름, 업무, 급여를 출력하라. ■
-
+select employee_id, last_name || ' ' || first_name, job_id, salary from employees where JOB_ID = 'AD_PRES' or salary >= 12000 or job_id = 'SA_MAN';
 
 --==========================================================================================================================--
 -- ■ 1. emp 테이블에서 사원번호가 7698 인 사원의 이름, 업무, 급여를 출력하시오. ■
+select ename, job, sal from emp
 
 -- ■ 2. emp 테이블에서 사원이름이 SMITH인 사람의 이름과 월급, 부서번호를 구하시오. ■
 
