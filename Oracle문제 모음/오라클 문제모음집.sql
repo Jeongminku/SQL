@@ -118,11 +118,11 @@ select ename, sal, comm from emp where comm is not null;
 -- ■ 1. EMPLOYEES 테이블에서 입사일자 순으로 정렬하여 사원번호, 이름, 업무, 급여, 입사일자, 부서번호를 출력하라. ■
 select employee_id, first_name || ' ' || last_name, job_id, hire_date, department_id from employees order by hire_date asc;
 -- ■ 2. EMPLOYEES 테이블에서 가장 최근에 입사한 순으로 사원번호, 이름, 업무, 급여, 입사일자, 부서번호를 출력하라. ■
-select * from employees;
+select employee_id, first_name || ' ' || last_name, job_id, hire_date, department_id from employees order by hire_date desc;
 -- ■ 3. EMPLOYEES 테이블에서 부서번호로 정렬한 후 부서번호가 같을 경우 급여가 많은 순으로 정렬하여 사원번호, 성명, 업무, 부서번호, 급여를 출력하여라. ■
-
+select employee_id, first_name || ' ' || last_name, job_id, department_id, salary from employees order by department_id asc, salary desc;
 -- ■ 4. EMPLOYEES 테이블에서 첫번째 정렬은 부서번호로 두번째 정렬은 업무로 세번째정렬은 급여가 많은 순으로 정렬하여 사원번호, 성명, 입사일자, 부서번호, 업무, 급여를 출력하여라. ■
-
+select employee_id"사원번호", first_name || ' ' || last_name"성명", hire_date"입사일자", department_id"부서번호", job_id "업무", salary "급여" from employees;
 -- ■ 5. EMPLOYEES 테이블에서 King의 정보를 소문자로 검색하고 사원번호, 성명, 담당업무(소문자로), 부서번호를 출력하라. ■
 
 -- ■ 6. EMPLOYEES 테이블에서 King의 정보를 대문자로 검색하고 사원번호, 성명, 담당업무(대문자로), 부서번호를 출력하라. ■
