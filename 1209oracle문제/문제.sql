@@ -14,6 +14,7 @@
            department_id as 부서번호 
            from employees
            where hire_date > '1995-01-01';
+    
            
 --문제6. EMPLOYEES 테이블에서 급여가 3000에서 5000사이의 정보를 성명, 담당업무, 급여, 부서번호를 출력하라.
     select first_name||' '||last_name as 성명,
@@ -64,6 +65,10 @@ select e.ENAME, e.deptno, d.deptno, d.dname
     from emp e
     full outer join dept d
     ON e.deptno = d.deptno;
+    
+select e.ename, e.deptno, d.deptno, d.dname
+    from emp e, dept d
+    where e.deptno = d.deptno;
 
 
 --문제14. 업무가 MANAGER인 사원의 정볼르 이름, 업무, 부서명, 근무지 순으로 출력하시오. ( emp, dept)
@@ -71,6 +76,10 @@ select e.ename, e.job, d.dname, d.loc
     from emp e, dept d
     where e.deptno = d.deptno
     and e.job = 'MANAGER';
+    
+select e.ename, e.job, d.dname, d.loc
+    from emp e, dept d
+    where e.deptno = d.deptno and e.job = 'MANAGER';
     
 select e.ename, e.job, d.dname, d.loc 
     from emp e 
@@ -104,6 +113,10 @@ select e.ename "이름", e.hiredate "사원번호"
     where hiredate = (select hiredate
                         from emp
                         where empno = 7900);
+                        
+select e.ename "이름", e.hiredate "사원번호"
+    from emp e
+    where e.hiredate = (select hiredate from emp where empno = 7900);
 
 --문제18. emp테이블 에서 직속상사(mgr)가 KING인 모든 사원의 이름과 급여를 출력하시오.
 select e.ename "사원이름", e.sal "급여", e.mgr "직속상사mgr"
@@ -111,6 +124,13 @@ select e.ename "사원이름", e.sal "급여", e.mgr "직속상사mgr"
         where mgr in (select mgr
                     from emp
                     where mgr = 7839);  
+
+select * from emp;
+
+select e.ename "사원이름", e.sal "급여", e.mgr "직속상사mgr"
+        from emp e
+        where mgr = (select empno from emp where ename = 'KING');
+                    
 /*single-row subquery returns more than one row                     
 
 select e.ename "사원이름", e.sal "급여"
@@ -129,7 +149,10 @@ select e.employee_id "사원번호", e.last_name "이름", e.job_id "담당업무", e.sala
     from employees e
     where salary < (select avg(nvl(salary,0)) --NVL(A, B) A가 null이라면 B라는 값을 뱉음.
                     from employees e) order by salary desc;
-                    
+ 
+ select * from employees;
+ select employee_id, last_name, job_id, salary, department_id from employees where salary < ( select avg(salary)
+                                            from employees) order by salary desc;
 --문제20. EMPLOYEES 테이블에서 (Kochhar의 급여)보다 많은 사원의 정보를 사원번호,이름,담당업무,급여를 출력하라.
 
 select e.employee_id "사원번호", e.last_name "이름", e.job_id "담당업무", e.salary "급여"
@@ -137,7 +160,9 @@ select e.employee_id "사원번호", e.last_name "이름", e.job_id "담당업무", e.sala
     where salary > (select salary
                     from employees
                     where last_name = 'Kochhar');
-
+select e.employee_id "사원번호", e.last_name "이름", e.job_id "담당업무", e.salary "급여"
+    from employees e
+    where salary > (select salary from employees where last_name = 'Kochhar');
 --문제 21. emp테이블 에서 (BLAKE와 같은 부서)에 있는 사원들의 이름과 입사일을 구하는데 BLAKE는 제외하고 출력하시오.(BLAKE가 여러명일 수 있음
 
 select e.ename "이름", e.hiredate "입사일"
@@ -145,3 +170,8 @@ select e.ename "이름", e.hiredate "입사일"
     where deptno in (select deptno
                             from emp
                             where ename = 'BLAKE') and ename != 'BLAKE';
+select e.ename "이름", e.hiredate "입사일"
+    from emp e
+    where deptno = (select deptno from emp where ename = 'BLAKE') and ename != 'BLAKE';
+    
+    

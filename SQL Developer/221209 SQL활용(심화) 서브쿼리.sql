@@ -177,10 +177,20 @@ from dual;  --현재 시퀀스 값을 출력합니다.
 --시퀀스를 삭제합니다
 drop sequence emp_seq;
 
-insert into emp values(EMP_SEQ.nextval, '둘리', 10);
+insert into emp values(EMP_SEQ.nextval, '둘리', 1);
 
 select * from emp;
 
 alter sequence emp_seq increment by 1; --이제 emp_seq.nextval로 하면 2씩 증가함.
 
 truncate table emp; -- 테이블 안에 있는 데이터를 전부 지워준다.
+
+create sequence scott.emp_seq
+        increment by 1
+        start with 1
+        minvalue 1
+        maxvalue 9999
+        nocycle
+        nocache
+        noorder
+        ;
